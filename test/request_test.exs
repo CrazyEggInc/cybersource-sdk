@@ -22,20 +22,36 @@ defmodule CyberSourceSDK.RequestTest do
     end)
 
     object = ~s({"header": "header", "signature": "signature"})
-		bill_to = CyberSourceSDK.bill_to("John", "Doe", "Maryland Street", "34", "New York", "12345", "NY", "USA", "john@example.com")
+
+    bill_to =
+      CyberSourceSDK.bill_to(
+        "John",
+        "Doe",
+        "Maryland Street",
+        "34",
+        "New York",
+        "12345",
+        "NY",
+        "USA",
+        "john@example.com"
+      )
 
     request_params = Base.encode64(object)
 
-    response_object = CyberSourceSDK.Client.authorize(
-      123.2,
-      "1234",
-      "VISA",
-      request_params,
-      bill_to)
+    response_object =
+      CyberSourceSDK.Client.authorize(
+        123.2,
+        "1234",
+        "VISA",
+        request_params,
+        bill_to
+      )
 
-    assert response_object == {:error,
-      "wsse:FailedCheck - Security Data : UsernameToken authentication failed."}
+    assert response_object ==
+             {:error, "wsse:FailedCheck - Security Data : UsernameToken authentication failed."}
   end
 
-  defp endpoint_url(port), do: "http://localhost:#{port}/commerce/1.x/transactionProcessor/CyberSourceTransaction_1.142.wsdl"
+  defp endpoint_url(port),
+    do:
+      "http://localhost:#{port}/commerce/1.x/transactionProcessor/CyberSourceTransaction_1.142.wsdl"
 end

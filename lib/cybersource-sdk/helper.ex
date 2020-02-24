@@ -13,14 +13,17 @@ defmodule CyberSourceSDK.Helper do
 
   """
   def convert_map_to_key_atom(string_key_map) when is_map(string_key_map) do
-    for {key, val} <- string_key_map, into: %{}, do: {String.to_atom(key), convert_map_to_key_atom(val)}
+    for {key, val} <- string_key_map,
+        into: %{},
+        do: {String.to_atom(key), convert_map_to_key_atom(val)}
   end
 
   def convert_map_to_key_atom(list_maps) when is_list(list_maps) do
-    Enum.map(list_maps, fn (map) -> convert_map_to_key_atom(map) end)
+    Enum.map(list_maps, fn map -> convert_map_to_key_atom(map) end)
   end
 
-  def convert_map_to_key_atom(string_key_map) when is_number(string_key_map) or is_nil(string_key_map) do
+  def convert_map_to_key_atom(string_key_map)
+      when is_number(string_key_map) or is_nil(string_key_map) do
     string_key_map
   end
 
@@ -28,7 +31,8 @@ defmodule CyberSourceSDK.Helper do
     if String.valid?(value) do
       value
     else
-      Kernel.inspect(value) # Convert to string
+      # Convert to string
+      Kernel.inspect(value)
     end
   end
 
@@ -48,7 +52,9 @@ defmodule CyberSourceSDK.Helper do
           {:ok, json} -> {:ok, convert_map_to_key_atom(json)}
           {:error, reason} -> {:error, reason}
         end
-      _ -> {:error, :bad_base64_encoding}
+
+      _ ->
+        {:error, :bad_base64_encoding}
     end
   end
 
@@ -74,7 +80,8 @@ defmodule CyberSourceSDK.Helper do
           true -> {:ok, :not_found_payment_type}
         end
 
-      {:error, _reason} -> {:error, :invalid_base64_or_json}
+      {:error, _reason} ->
+        {:error, :invalid_base64_or_json}
     end
   end
 
@@ -93,14 +100,22 @@ defmodule CyberSourceSDK.Helper do
     cond do
       String.match?(card_number, ~r/^4[0-9]{6,}$/) ->
         "VISA"
+
       String.match?(card_number, ~r/^3[47][0-9]{5,}$/) ->
         "AMEX"
+
       String.match?(card_number, ~r/^6(?:011|5[0-9]{2})[0-9]{3,}$/) ->
         "DISCOVER"
+
       String.match?(card_number, ~r/^(?:2131|1800|35[0-9]{3})[0-9]{3,}$/) ->
         "JCB"
-      String.match?(card_number, ~r/^5[1-5][0-9]{5,}|222[1-9][0-9]{3,}|22[3-9][0-9]{4,}|2[3-6][0-9]{5,}|27[01][0-9]{4,}|2720[0-9]{3,}$/) ->
+
+      String.match?(
+        card_number,
+        ~r/^5[1-5][0-9]{5,}|222[1-9][0-9]{3,}|22[3-9][0-9]{4,}|2[3-6][0-9]{5,}|27[01][0-9]{4,}|2720[0-9]{3,}$/
+      ) ->
         "MASTERCARD"
+
       true ->
         # Unfortunately, there are a number of card types processed with the MasterCard system that do not live in MasterCard’s IIN range
         # https://stackoverflow.com/questions/72768/how-do-you-detect-credit-card-type-based-on-number
