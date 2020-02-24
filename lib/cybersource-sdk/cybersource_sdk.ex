@@ -137,11 +137,11 @@ defmodule CyberSourceSDK do
   ```
   """
   @spec create_credit_card_token(
-        String.t(),
-        keyword() | nil,
-        keyword() | nil,
-        atom()
-      ) :: {:ok, map()} | {:error, atom()} | {:error, String.t()}
+          String.t(),
+          keyword() | nil,
+          keyword() | nil,
+          atom()
+        ) :: {:ok, map()} | {:error, atom()} | {:error, String.t()}
   def create_credit_card_token(merchant_reference_code, credit_card, bill_to, worker \\ :merchant) do
     Client.create_credit_card_token(merchant_reference_code, credit_card, bill_to, worker)
   end
@@ -158,13 +158,19 @@ defmodule CyberSourceSDK do
   ```
   """
   @spec update_credit_card(
-        String.t(),
-        String.t(),
-        keyword(),
-        keyword(),
-        atom()
-      ) :: {:ok, map()} | {:error, atom()} | {:error, String.t()}
-  def update_credit_card(merchant_reference_code, token, credit_card, bill_to, worker \\ :merchant) do
+          String.t(),
+          String.t(),
+          keyword(),
+          keyword(),
+          atom()
+        ) :: {:ok, map()} | {:error, atom()} | {:error, String.t()}
+  def update_credit_card(
+        merchant_reference_code,
+        token,
+        credit_card,
+        bill_to,
+        worker \\ :merchant
+      ) do
     Client.update_credit_card(merchant_reference_code, token, credit_card, bill_to, worker)
   end
 
@@ -178,10 +184,10 @@ defmodule CyberSourceSDK do
   ```
   """
   @spec retrieve_credit_card(
-        String.t(),
-        String.t(),
-        atom()
-      ) :: {:ok, map()} | {:error, atom()} | {:error, String.t()}
+          String.t(),
+          String.t(),
+          atom()
+        ) :: {:ok, map()} | {:error, atom()} | {:error, String.t()}
   def retrieve_credit_card(merchant_reference_code, token, worker \\ :merchant) do
     Client.retrieve_credit_card(merchant_reference_code, token, worker)
   end
@@ -196,10 +202,10 @@ defmodule CyberSourceSDK do
   ```
   """
   @spec delete_credit_card(
-        String.t(),
-        String.t(),
-        atom()
-      ) :: {:ok, map()} | {:error, atom()} | {:error, String.t()}
+          String.t(),
+          String.t(),
+          atom()
+        ) :: {:ok, map()} | {:error, atom()} | {:error, String.t()}
   def delete_credit_card(merchant_reference_code, token, worker \\ :merchant) do
     Client.delete_credit_card(merchant_reference_code, token, worker)
   end
@@ -214,11 +220,11 @@ defmodule CyberSourceSDK do
   ```
   """
   @spec charge_credit_card(
-        float(),
-        String.t(),
-        String.t(),
-        atom()
-      ) :: {:ok, map()} | {:error, atom()} | {:error, String.t()}
+          float(),
+          String.t(),
+          String.t(),
+          atom()
+        ) :: {:ok, map()} | {:error, atom()} | {:error, String.t()}
   def charge_credit_card(price, merchant_reference_code, token, worker \\ :merchant) do
     Client.charge_credit_card(price, merchant_reference_code, token, worker)
   end
@@ -233,11 +239,11 @@ defmodule CyberSourceSDK do
   ```
   """
   @spec auth_credit_card(
-        float(),
-        String.t(),
-        String.t(),
-        atom()
-      ) :: {:ok, map()} | {:error, atom()} | {:error, String.t()}
+          float(),
+          String.t(),
+          String.t(),
+          atom()
+        ) :: {:ok, map()} | {:error, atom()} | {:error, String.t()}
   def auth_credit_card(price, merchant_reference_code, token, worker \\ :merchant) do
     Client.auth_credit_card(price, merchant_reference_code, token, worker)
   end
@@ -275,7 +281,6 @@ defmodule CyberSourceSDK do
     ]
   end
 
-
   @doc """
   Generate creditCard object to replace parameters in request XML
 
@@ -294,7 +299,11 @@ defmodule CyberSourceSDK do
       card_number: card_number,
       expiration_month: expiration_month,
       expiration_year: expiration_year,
-      card_type: if(is_nil(card_number), do: nil, else: Client.get_card_type(Helper.card_type_from_number(card_number)))
+      card_type:
+        if(is_nil(card_number),
+          do: nil,
+          else: Client.get_card_type(Helper.card_type_from_number(card_number))
+        )
     ]
   end
 end
