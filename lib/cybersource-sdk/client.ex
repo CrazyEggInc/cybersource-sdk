@@ -701,6 +701,8 @@ defmodule CyberSourceSDK.Client do
       ccAuthReply: [
         ~x".//c:ccAuthReply"o,
         reasonCode: ~x"./c:reasonCode/text()"i,
+        avsCode: ~x"./c:avsCode/text()"i,
+        avsCodeRaw: ~x"./c:avsCodeRaw/text()"i,
         amount: ~x"./c:amount/text()"of
       ],
       ccCaptureReply: [
