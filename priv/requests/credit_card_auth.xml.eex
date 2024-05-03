@@ -23,7 +23,7 @@
       <ns1:ccAuthService run="true"/>
     </ns1:requestMessage>
     <ns2:businessRules>
-      <ns2:ignoreAVSResult>true</ns2:ignoreAVSResult>
+      <ns2:ignoreAVSResult>false</ns2:ignoreAVSResult>
     </ns2:businessRules>
   </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>
