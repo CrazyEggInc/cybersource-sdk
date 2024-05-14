@@ -22,6 +22,9 @@
         <ns1:postalCode><%= @post_code %></ns1:postalCode>
         <ns1:country><%= @country %></ns1:country>
         <ns1:email><%= @email %></ns1:email>
+      <%= if @ip_address do %>
+        <ns1:ipAddress><%= @ip_address %></ns1:ipAddress>
+      <% end %>
       </ns1:billTo>
       <ns1:purchaseTotals>
         <ns1:currency>USD</ns1:currency>
