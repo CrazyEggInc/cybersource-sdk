@@ -749,7 +749,7 @@ defmodule CyberSourceSDK.Client do
       paySubscriptionUpdateReply: [
         ~x".//c:paySubscriptionUpdateReply"o,
         reasonCode: ~x"./c:reasonCode/text()"i,
-        subscriptionID: ~x"./c:subscriptionID/text()"i
+        subscriptionID: ~x"./c:subscriptionID/text()"io
       ],
       paySubscriptionDeleteReply: [
         ~x".//c:paySubscriptionDeleteReply"o,
