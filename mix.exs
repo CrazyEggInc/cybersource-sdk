@@ -5,9 +5,8 @@ defmodule CyberSourceSDK.Mixfile do
     [
       app: :cybersource_sdk,
       version: "1.0.5",
-      elixir: "~> 1.2",
+      elixir: "~> 1.18",
       deps: deps(),
-      test_coverage: [tool: ExCoveralls],
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       package: [
@@ -30,29 +29,19 @@ defmodule CyberSourceSDK.Mixfile do
 
   def application do
     [
-      mod: {CyberSourceSDK, []},
-      applications: [
-        :logger,
-        :inets,
-        :ssl,
-        :sweet_xml,
-        :poison,
-        :httpoison
-      ]
+      mod: {CyberSourceSDK, []}
     ]
   end
 
   defp deps do
     [
-      {:sweet_xml, "~> 0.6"},
-      {:httpoison, "~> 1.6"},
-      {:poison, ">= 2.0.0"},
-      {:cowboy, "~> 2.5"},
-      {:plug_cowboy, "~> 2.0"},
-      {:exvcr, "~> 0.10.3", only: [:dev, :test]},
-      {:excoveralls, "~> 0.11.1", only: [:dev, :test]},
-      {:ex_doc, "~> 0.19", only: :dev, runtime: false},
-      {:bypass, "~> 0.6", only: :test}
+      {:sweet_xml, "~> 0.7"},
+      {:req, "~> 0.5"},
+      {:cowboy, "~> 2.12"},
+      {:plug_cowboy, "~> 2.7"},
+      {:ex_doc, "~> 0.37", only: :dev, runtime: false},
+      {:bypass, "~> 2.1", only: :test},
+      {:exvcr, "~> 0.15", only: :test}
     ]
   end
 end

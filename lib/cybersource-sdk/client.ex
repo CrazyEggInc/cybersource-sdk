@@ -70,7 +70,7 @@ defmodule CyberSourceSDK.Client do
     {:ok, args}
   end
 
-  def start_link do
+  def start_link(_opts) do
     GenServer.start_link(__MODULE__, {}, name: :cybersource_sdk_client)
   end
 
@@ -654,21 +654,22 @@ defmodule CyberSourceSDK.Client do
 
     timeout = Application.get_env(:cybersource_sdk, :timeout, 60_000)
 
-    case HTTPoison.post(
+    case Req.post(
            endpoint,
-           xml_body,
-           [{"Content-Type", "application/xml"}],
-           timeout: timeout,
-           recv_timeout: timeout
+           body: xml_body,
+           headers: [content_type: "application/xml"],
+           connect_options: [timeout: timeout],
+           receive_timeout: timeout
          ) do
-      {:ok, %HTTPoison.Response{body: response_body}} ->
-        parse_response(response_body)
-        |> handle_response
+      {:ok, %Req.Response{body: response_body}} ->
+        response_body
+        |> parse_response()
+        |> handle_response()
 
-      {:error, %HTTPoison.Error{id: _, reason: reason}} = response ->
+      {:error, exception} = response ->
         Logger.error("Timeout: #{timeout}")
         Logger.error("#{inspect(response)}")
-        {:error, reason}
+        {:error, Exception.message(exception)}
     end
   end
 

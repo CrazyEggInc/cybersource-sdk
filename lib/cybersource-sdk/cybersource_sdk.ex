@@ -1,19 +1,15 @@
 defmodule CyberSourceSDK do
   @moduledoc """
-  This CyberSource module communicates with the Simple Order API
-  service (SOAP) of CyberSource.
+  This CyberSource module communicates with the Simple Order API service (SOAP) of CyberSource.
   """
-
   use Application
 
   alias CyberSourceSDK.Client
   alias CyberSourceSDK.Helper
 
   def start(_type, _args) do
-    import Supervisor.Spec, warn: false
-
     children = [
-      worker(CyberSourceSDK.Client, [])
+      CyberSourceSDK.Client
     ]
 
     opts = [strategy: :one_for_one, name: CyberSourceSDK.Supervisor]
@@ -254,7 +250,7 @@ defmodule CyberSourceSDK do
   ## Examples
 
       iex> CyberSourceSDK.bill_to("John", "Doe", "Main Street", "2 Left", "New York", "12345", "NY", "USA", "john@example.com")
-      [first_name: "John", last_name: "Doe", street1: "Main Street", street2: "2 Left", city: "New York", post_code: "12345", state: "NY", country: "USA", email: "john@example.com"]
+      [first_name: "John", last_name: "Doe", street1: "Main Street", street2: "2 Left", city: "New York", post_code: "12345", state: "NY", country: "USA", email: "john@example.com", ip_address: nil]
   """
   @spec bill_to(
           String.t() | nil,
